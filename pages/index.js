@@ -70,8 +70,16 @@ export default function Home({ todos: initialTodos }) {
           {todos.map(({ id, content }) => (
             <li className={styles.card} key={id}>
               {content}
-              <button onClick={onClickRemoveButton} data-id={id} className={styles.removeBtn}>
+              <button onClick={onClickRemoveButton} data-id={id} className={styles.button}>
                 X
+              </button>
+              <button
+                onClick={onClickRemoveButton}
+                data-id={id}
+                data-content={content}
+                className={styles.button}
+              >
+                ✏️
               </button>
             </li>
           ))}
