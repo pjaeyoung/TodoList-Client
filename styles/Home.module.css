@@ -90,6 +90,14 @@
   border-radius: 10px;
 }
 
+.removeBtn {
+  margin-left: 1rem;
+  background: none;
+  border: none;
+  color: #f32400;
+  font-weight: bold;
+}
+
 .card {
   margin: 1rem;
   flex-basis: 45%;
