@@ -1,8 +1,14 @@
+import { useState } from 'react';
 import { initializeApollo } from '../lib/apolloClient';
-import { todos } from '../gql';
+import { TODOS } from '../gql';
 import styles from '../styles/Home.module.css';
 
 export default function Home({ todos }) {
+  const [todo, setTodo] = useState('');
+  const onChangeTodo = ({ target: { value } }) => {
+    setTodo(value);
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.title}>TodoList</header>
@@ -13,6 +19,8 @@ export default function Home({ todos }) {
             type="text"
             name="todo 입력"
             placeholder="새 할 일을 입력하세요...."
+            value={todo}
+            onChange={onChangeTodo}
           />
         </form>
         <ul className={styles.grid}>
@@ -30,7 +38,7 @@ export default function Home({ todos }) {
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
   const { data } = await apolloClient.query({
-    query: todos,
+    query: TODOS,
   });
 
   return { props: { todos: data.todos }, revalidate: 1 };
