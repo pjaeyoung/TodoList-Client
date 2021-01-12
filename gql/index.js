@@ -1,1 +1,1 @@
-export { TODOS, ADD_TODO } from './todos';
+export { TODOS, ADD_TODO, REMOVE_TODO } from './todos';
