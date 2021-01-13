@@ -1,8 +1,14 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { initializeApollo } from '../lib/apolloClient';
-import { TODOS, ADD_TODO, REMOVE_TODO } from '../gql';
+import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '../gql';
+import { Todo } from '../components';
 import styles from '../styles/Home.module.css';
+
+Home.propTypes = {
+  todos: PropTypes.array.isRequired,
+};
 
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
@@ -42,13 +48,35 @@ export default function Home({ todos: initialTodos }) {
       setTodos((prev) => prev.filter((todo) => todo.id !== removeId));
     },
   });
-
   const onClickRemoveButton = ({
     target: {
       dataset: { id },
     },
   }) => {
     removeTodo({ variables: { id: parseInt(id) } });
+  };
+
+  const [updateTodo] = useMutation(UPDATE_TODO, {
+    update: (cache, { data: { updateTodo: updatedTodo } }) => {
+      cache.modify({
+        fields: {
+          todo(cachedTodos) {
+            const updatedTodoIndex = cachedTodos.findIndex(({ id }) => updatedTodo.id === id);
+            cachedTodos[updatedTodoIndex] = updatedTodo;
+            return cachedTodos;
+          },
+        },
+      });
+      setTodos((prev) => {
+        const updatedTodoIndex = prev.findIndex(({ id }) => updatedTodo.id === id);
+        prev[updatedTodoIndex] = updatedTodo;
+        return prev;
+      });
+    },
+  });
+
+  const onClickUpdateButton = ({ id, content }) => {
+    updateTodo({ variables: { id, content } });
   };
 
   return (
@@ -69,18 +97,13 @@ export default function Home({ todos: initialTodos }) {
         <ul className={styles.grid}>
           {todos.map(({ id, content }) => (
             <li className={styles.card} key={id}>
-              {content}
-              <button onClick={onClickRemoveButton} data-id={id} className={styles.button}>
-                X
-              </button>
-              <button
-                onClick={onClickRemoveButton}
-                data-id={id}
-                data-content={content}
-                className={styles.button}
-              >
-                ✏️
-              </button>
+              <Todo
+                id={id}
+                content={content}
+                styles={styles}
+                onClickRemoveButton={onClickRemoveButton}
+                onClickUpdateButton={onClickUpdateButton}
+              />
             </li>
           ))}
         </ul>
