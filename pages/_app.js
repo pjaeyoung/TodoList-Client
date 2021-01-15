@@ -4,6 +4,7 @@ import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo();
+  
   return (
     <ApolloProvider client={apolloClient}>
       <Component {...pageProps} />

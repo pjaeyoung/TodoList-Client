@@ -9,7 +9,7 @@ import styles from '../styles/Home.module.css';
 Home.propTypes = {
   todos: PropTypes.array.isRequired,
 };
-
+// Business Container
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
   const [todo, setTodo] = useState('');
@@ -79,6 +79,8 @@ export default function Home({ todos: initialTodos }) {
     updateTodo({ variables: { id, content } });
   };
 
+  // 상위 컴포넌트에서 state => 변경사항만 push pop
+
   return (
     <div className={styles.container}>
       <header className={styles.title}>TodoList</header>
@@ -97,6 +99,7 @@ export default function Home({ todos: initialTodos }) {
         <ul className={styles.grid}>
           {todos.map(({ id, content }) => (
             <li className={styles.card} key={id}>
+             {/* Container 관리 방법 */}
               <Todo
                 id={id}
                 content={content}
@@ -104,6 +107,11 @@ export default function Home({ todos: initialTodos }) {
                 onClickRemoveButton={onClickRemoveButton}
                 onClickUpdateButton={onClickUpdateButton}
               />
+
+              {/* 부모컴포넌트에서 수정 or 수정X 컴포넌트 관리 */}
+
+              <EditableTodo></EditableTodo>
+              <UnEditableTodo></UnEditableTodo>
             </li>
           ))}
         </ul>
