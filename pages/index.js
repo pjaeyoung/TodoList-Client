@@ -1,10 +1,10 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { useMutation } from "@apollo/client";
-import { initializeApollo } from "../lib/apolloClient";
-import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from "../gql";
-import { Todo } from "../components";
-import styles from "../styles/Home.module.css";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
+import { initializeApollo } from '../lib/apolloClient';
+import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '../gql';
+import { Todo } from '../components';
+import styles from '../styles/Home.module.css';
 
 Home.propTypes = {
   todos: PropTypes.array.isRequired,
@@ -12,7 +12,7 @@ Home.propTypes = {
 
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState('');
   const onChangeTodo = ({ target: { value } }) => {
     setTodo(value);
   };
@@ -33,7 +33,7 @@ export default function Home({ todos: initialTodos }) {
   const submitTodo = (e) => {
     e.preventDefault();
     addTodo({ variables: { content: todo } });
-    setTodo("");
+    setTodo('');
   };
 
   const [removeTodo] = useMutation(REMOVE_TODO, {
@@ -62,7 +62,7 @@ export default function Home({ todos: initialTodos }) {
         fields: {
           todo(cachedTodos) {
             const updatedTodoIndex = cachedTodos.findIndex(
-              ({ id }) => updatedTodo.id === id
+              ({ id }) => updatedTodo.id === id,
             );
             cachedTodos[updatedTodoIndex] = updatedTodo;
             return cachedTodos;
@@ -71,7 +71,7 @@ export default function Home({ todos: initialTodos }) {
       });
       setTodos((prev) => {
         const updatedTodoIndex = prev.findIndex(
-          ({ id }) => updatedTodo.id === id
+          ({ id }) => updatedTodo.id === id,
         );
         prev[updatedTodoIndex] = updatedTodo;
         return prev;
@@ -90,12 +90,12 @@ export default function Home({ todos: initialTodos }) {
         <form onSubmit={submitTodo}>
           <input
             className={styles.input}
-            type="text"
-            name="todo 입력"
-            placeholder="새 할 일을 입력하세요...."
+            type='text'
+            name='todo 입력'
+            placeholder='새 할 일을 입력하세요....'
             value={todo}
             onChange={onChangeTodo}
-            autoComplete="off"
+            autoComplete='off'
           />
         </form>
         <ul className={styles.grid}>

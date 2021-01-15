@@ -14,11 +14,21 @@ export default function Todo(props) {
   );
 }
 
-function ReadonlyTodo({ content, onClickRemoveButton, id, styles, toggleEditable }) {
+function ReadonlyTodo({
+  content,
+  onClickRemoveButton,
+  id,
+  styles,
+  toggleEditable,
+}) {
   return (
     <>
       {content}
-      <button onClick={onClickRemoveButton} data-id={id} className={styles.button}>
+      <button
+        onClick={onClickRemoveButton}
+        data-id={id}
+        className={styles.button}
+      >
         X
       </button>
       <button
@@ -33,7 +43,13 @@ function ReadonlyTodo({ content, onClickRemoveButton, id, styles, toggleEditable
   );
 }
 
-function EditableTodo({ onClickUpdateButton, id, content, toggleEditable, styles }) {
+function EditableTodo({
+  onClickUpdateButton,
+  id,
+  content,
+  toggleEditable,
+  styles,
+}) {
   const [newContent, setNewContent] = useState(content);
   const onChangeContent = ({ target: { value } }) => setNewContent(value);
   const submitEditedTodo = (e) => {
@@ -44,7 +60,7 @@ function EditableTodo({ onClickUpdateButton, id, content, toggleEditable, styles
   return (
     <>
       <form onSubmit={submitEditedTodo}>
-        <input type="text" value={newContent} onChange={onChangeContent} />
+        <input type='text' value={newContent} onChange={onChangeContent} />
       </form>
       <button onClick={submitEditedTodo} data-id={id} className={styles.button}>
         👌
