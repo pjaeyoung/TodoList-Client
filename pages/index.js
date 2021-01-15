@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { initializeApollo } from '../lib/apolloClient';
-import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '../gql';
-import { Todo } from '../components';
-import styles from '../styles/Home.module.css';
+import { initializeApollo } from '@lib/apolloClient';
+import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '@gql';
+import { Todo } from '@components';
+import styles from 'styles/Home.module.css';
 
 Home.propTypes = {
   todos: PropTypes.array.isRequired,
