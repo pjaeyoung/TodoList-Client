@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
 import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '@gql';
-import { Todo } from '@components';
 import styles from 'styles/Home.module.css';
+import Todos from '../components/Todos';
 
 Home.propTypes = {
   todos: PropTypes.array.isRequired,
@@ -13,6 +13,7 @@ Home.propTypes = {
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
   const [todo, setTodo] = useState('');
+
   const onChangeTodo = ({ target: { value } }) => {
     setTodo(value);
   };
@@ -53,7 +54,7 @@ export default function Home({ todos: initialTodos }) {
       dataset: { id },
     },
   }) => {
-    removeTodo({ variables: { id: parseInt(id) } });
+    removeTodo({ variables: { id } });
   };
 
   const [updateTodo] = useMutation(UPDATE_TODO, {
@@ -98,19 +99,11 @@ export default function Home({ todos: initialTodos }) {
             autoComplete='off'
           />
         </form>
-        <ul className={styles.grid}>
-          {todos.map(({ id, content }) => (
-            <li className={styles.card} key={id}>
-              <Todo
-                id={id}
-                content={content}
-                styles={styles}
-                onClickRemoveButton={onClickRemoveButton}
-                onClickUpdateButton={onClickUpdateButton}
-              />
-            </li>
-          ))}
-        </ul>
+        <Todos
+          todos={todos}
+          onClickRemoveButton={onClickRemoveButton}
+          onClickUpdateButton={onClickUpdateButton}
+        />
       </main>
     </div>
   );
