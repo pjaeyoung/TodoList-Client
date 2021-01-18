@@ -3,6 +3,7 @@ import { useState } from 'react';
 export default function Todo(props) {
   const [editable, setEditable] = useState(false);
   const toggleEditable = () => setEditable(!editable);
+  console.log('Todo');
   return (
     <>
       {editable ? (

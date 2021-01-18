@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
 import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '@gql';
 import styles from 'styles/Home.module.css';
-import Todos from '../components/Todos';
+import { Todos, TodoInput } from '@components';
 
 Home.propTypes = {
   todos: PropTypes.array.isRequired,
@@ -12,12 +12,6 @@ Home.propTypes = {
 
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
-  const [todo, setTodo] = useState('');
-
-  const onChangeTodo = ({ target: { value } }) => {
-    setTodo(value);
-  };
-
   const [addTodo] = useMutation(ADD_TODO, {
     update: (cache, { data: { addTodo: newTodo } }) => {
       cache.modify({
@@ -31,11 +25,6 @@ export default function Home({ todos: initialTodos }) {
       setTodos((prev) => [...prev, newTodo]);
     },
   });
-  const submitTodo = (e) => {
-    e.preventDefault();
-    addTodo({ variables: { content: todo } });
-    setTodo('');
-  };
 
   const [removeTodo] = useMutation(REMOVE_TODO, {
     update: (cache, { data: { removeTodo: removeId } }) => {
@@ -88,17 +77,7 @@ export default function Home({ todos: initialTodos }) {
     <div className={styles.container}>
       <header className={styles.title}>TodoList</header>
       <main className={styles.main}>
-        <form onSubmit={submitTodo}>
-          <input
-            className={styles.input}
-            type='text'
-            name='todo 입력'
-            placeholder='새 할 일을 입력하세요....'
-            value={todo}
-            onChange={onChangeTodo}
-            autoComplete='off'
-          />
-        </form>
+        <TodoInput addTodo={addTodo} />
         <Todos
           todos={todos}
           onClickRemoveButton={onClickRemoveButton}
