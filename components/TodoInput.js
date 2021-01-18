@@ -1,7 +1,22 @@
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_TODO } from '@gql';
 import styles from 'styles/Home.module.css';
 
-export default function TodoInput({ addTodo }) {
+export default function TodoInput({ setTodos }) {
+  const [addTodo] = useMutation(ADD_TODO, {
+    update: (cache, { data: { addTodo: newTodo } }) => {
+      cache.modify({
+        id: cache.identify(newTodo),
+        fields: {
+          todo(cachedTodos) {
+            return [...cachedTodos, newTodo];
+          },
+        },
+      });
+      setTodos((prev) => [...prev, newTodo]);
+    },
+  });
   const [content, setContent] = useState('');
   const onSubmitTodo = (e) => {
     e.preventDefault();

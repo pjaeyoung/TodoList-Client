@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
-import { TODOS, ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '@gql';
+import { TODOS, REMOVE_TODO, UPDATE_TODO } from '@gql';
 import styles from 'styles/Home.module.css';
 import { Todos, TodoInput } from '@components';
 
@@ -12,19 +12,6 @@ Home.propTypes = {
 
 export default function Home({ todos: initialTodos }) {
   const [todos, setTodos] = useState(initialTodos);
-  const [addTodo] = useMutation(ADD_TODO, {
-    update: (cache, { data: { addTodo: newTodo } }) => {
-      cache.modify({
-        id: cache.identify(newTodo),
-        fields: {
-          todo(cachedTodos) {
-            return [...cachedTodos, newTodo];
-          },
-        },
-      });
-      setTodos((prev) => [...prev, newTodo]);
-    },
-  });
 
   const [removeTodo] = useMutation(REMOVE_TODO, {
     update: (cache, { data: { removeTodo: removeId } }) => {
@@ -77,7 +64,7 @@ export default function Home({ todos: initialTodos }) {
     <div className={styles.container}>
       <header className={styles.title}>TodoList</header>
       <main className={styles.main}>
-        <TodoInput addTodo={addTodo} />
+        <TodoInput setTodos={setTodos} />
         <Todos
           todos={todos}
           onClickRemoveButton={onClickRemoveButton}
