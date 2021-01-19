@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { REMOVE_TODO, UPDATE_TODO } from '@gql';
 import { Todo } from '@components';
 import { TodoType } from '@types';
-import styles from 'styles/Home.module.css';
+import styles from '@styles/Home.module.css';
 
 interface TodosProps {
   todos: TodoType[];

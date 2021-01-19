@@ -5,7 +5,7 @@ import { initializeApollo } from '@lib/apolloClient';
 import { TODOS } from '@gql';
 import { Todos, TodoInput } from '@components';
 import { TodoType } from '@types';
-import styles from 'styles/Home.module.css';
+import styles from '@styles/Home.module.css';
 
 interface HomeProps {
   todos: TodoType[];

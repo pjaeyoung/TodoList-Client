@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_TODO } from '@gql';
-import styles from 'styles/Home.module.css';
+import styles from '@styles/Home.module.css';
 import { TodoType } from '@types';
 
 interface TodoInputProps {
