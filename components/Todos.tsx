@@ -60,13 +60,7 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
     },
   });
 
-  const onClickUpdateButton = ({
-    id,
-    content,
-  }: {
-    id: string;
-    content: string;
-  }): void => {
+  const onClickUpdateButton = ({ id, content }: TodoType): void => {
     updateTodo({ variables: { id, content } });
   };
 
