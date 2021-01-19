@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { GetStaticProps } from 'next';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
 import { TODOS } from '@gql';
-import styles from 'styles/Home.module.css';
 import { Todos, TodoInput } from '@components';
+import { Todo } from '@types';
+import styles from 'styles/Home.module.css';
 
-Home.propTypes = {
-  todos: PropTypes.array.isRequired,
-};
+interface HomeProps {
+  todos: Todo[];
+}
 
-export default function Home({ todos: initialTodos }) {
-  const [todos, setTodos] = useState(initialTodos);
+const Home: React.FC<HomeProps> = ({ todos: initialTodos }) => {
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   return (
     <div className={styles.container}>
@@ -21,13 +23,15 @@ export default function Home({ todos: initialTodos }) {
       </main>
     </div>
   );
-}
+};
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
+export default Home;
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const apolloClient: ApolloClient<NormalizedCacheObject> = initializeApollo();
   const { data } = await apolloClient.query({
     query: TODOS,
   });
 
   return { props: { todos: data.todos }, revalidate: 1 };
-}
+};
