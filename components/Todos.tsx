@@ -37,7 +37,10 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
     removeTodo({ variables: { id } });
   };
 
-  const [updateTodo] = useMutation(UPDATE_TODO, {
+  const [updateTodo] = useMutation<{
+    updateTodo: TodoType;
+    variables: TodoType;
+  }>(UPDATE_TODO, {
     update: (cache, { data: { updateTodo: updatedTodo } }) => {
       cache.modify({
         fields: {
