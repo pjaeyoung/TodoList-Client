@@ -18,7 +18,8 @@
       "@components": ["components/index.tsx"],
       "@lib/*": ["lib/*"],
       "@gql": ["gql/index.ts"],
-      "@types": ["types/index.ts"]
+      "@types": ["types/index.ts"],
+      "@styles/*": ["styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
