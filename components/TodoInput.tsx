@@ -2,21 +2,21 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_TODO } from '@gql';
 import styles from 'styles/Home.module.css';
-import { Todo } from '@types';
+import { TodoType } from '@types';
 
 interface TodoInputProps {
-  setTodos: Dispatch<SetStateAction<Todo[]>>;
+  setTodos: Dispatch<SetStateAction<TodoType[]>>;
 }
 
 const TodoInput: React.FC<TodoInputProps> = ({ setTodos }) => {
-  const [addTodo] = useMutation<{ addTodo: Todo }, { content: string }>(
+  const [addTodo] = useMutation<{ addTodo: TodoType }, { content: string }>(
     ADD_TODO,
     {
       update: (cache, { data: { addTodo: newTodo } }) => {
         cache.modify({
           id: cache.identify(newTodo),
           fields: {
-            todo(cachedTodos: Todo[]) {
+            todo(cachedTodos: TodoType[]) {
               return [...cachedTodos, newTodo];
             },
           },

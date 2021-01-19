@@ -4,15 +4,15 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
 import { TODOS } from '@gql';
 import { Todos, TodoInput } from '@components';
-import { Todo } from '@types';
+import { TodoType } from '@types';
 import styles from 'styles/Home.module.css';
 
 interface HomeProps {
-  todos: Todo[];
+  todos: TodoType[];
 }
 
 const Home: NextPage<HomeProps> = ({ todos: initialTodos }) => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<TodoType[]>(initialTodos);
 
   return (
     <div className={styles.container}>
