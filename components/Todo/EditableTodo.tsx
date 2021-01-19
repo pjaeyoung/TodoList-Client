@@ -13,9 +13,16 @@ const EditableTodo: React.FC<EditableTodoProps> = ({
   toggleEditable,
   onClickUpdateButton,
 }) => {
-  const [newContent, setNewContent] = useState(content);
-  const onChangeContent = ({ target: { value } }) => setNewContent(value);
-  const submitEditedTodo = (e) => {
+  const [newContent, setNewContent] = useState<string>(content);
+  const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setNewContent(value);
+  };
+  const submitEditedTodo = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
     toggleEditable();
     onClickUpdateButton({ id, content: newContent });
