@@ -1,6 +1,6 @@
 type Todo = {
-  id: Number;
-  content: String;
+  id: number;
+  content: string;
 };
 
 export default Todo;
