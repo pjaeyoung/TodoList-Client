@@ -1,4 +1,6 @@
-interface Todo {
+import { StoreObject } from '@apollo/client';
+
+interface Todo extends StoreObject {
   id: string;
   content: string;
 }
