@@ -1,26 +1,39 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from '@apollo/client';
 import { REMOVE_TODO, UPDATE_TODO } from '@gql';
 import { Todo } from '@components';
+import { TodoType } from '@types';
 import styles from 'styles/Home.module.css';
 
-export default function Todos({ todos, setTodos }) {
-  const [removeTodo] = useMutation(REMOVE_TODO, {
-    update: (cache, { data: { removeTodo: removeId } }) => {
-      cache.modify({
-        fields: {
-          todo(cachedTodos) {
-            return cachedTodos.filter((todo) => todo.id !== removeId);
+interface TodosProps {
+  todos: TodoType[];
+  setTodos: Dispatch<SetStateAction<TodoType[]>>;
+}
+
+const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
+  const [removeTodo] = useMutation<{ removeTodo: string }, { id: string }>(
+    REMOVE_TODO,
+    {
+      update: (cache, { data: { removeTodo: removeId } }) => {
+        cache.modify({
+          fields: {
+            todo(cachedTodos: TodoType[]) {
+              return cachedTodos.filter((todo) => todo.id !== removeId);
+            },
           },
-        },
-      });
-      setTodos((prev) => prev.filter((todo) => todo.id !== removeId));
+        });
+        setTodos((prev) => prev.filter((todo) => todo.id !== removeId));
+      },
     },
-  });
-  const onClickRemoveButton = ({
-    target: {
-      dataset: { id },
-    },
-  }) => {
+  );
+  const onClickRemoveButton = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
+    const {
+      currentTarget: {
+        dataset: { id },
+      },
+    } = e;
     removeTodo({ variables: { id } });
   };
 
@@ -47,7 +60,13 @@ export default function Todos({ todos, setTodos }) {
     },
   });
 
-  const onClickUpdateButton = ({ id, content }) => {
+  const onClickUpdateButton = ({
+    id,
+    content,
+  }: {
+    id: string;
+    content: string;
+  }): void => {
     updateTodo({ variables: { id, content } });
   };
 
@@ -66,4 +85,6 @@ export default function Todos({ todos, setTodos }) {
       ))}
     </ul>
   );
-}
+};
+
+export default Todos;
