@@ -1,21 +1,28 @@
 import { useMemo } from 'react';
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client';
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+export const APOLLO_STATE_PROP_NAME: string = '__APOLLO_STATE__';
 
-let apolloClient;
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-function createApolloClient() {
+function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
-      uri: 'http://localhost:4000', // Server URL (must be absolute)
+      uri: 'http://localhost:4000',
     }),
     cache: new InMemoryCache(),
   });
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo(
+  initialState = null,
+): ApolloClient<NormalizedCacheObject> {
   const _apolloClient = apolloClient ?? createApolloClient();
 
   if (initialState) {
@@ -30,7 +37,9 @@ export function initializeApollo(initialState = null) {
 }
 
 // initialState에 따라 apolloClient 초기화
-export function useApollo(initialState) {
+export function useApollo(
+  initialState?: any,
+): ApolloClient<NormalizedCacheObject> {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }
