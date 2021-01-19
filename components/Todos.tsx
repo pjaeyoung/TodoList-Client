@@ -77,7 +77,6 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
           <Todo
             id={id}
             content={content}
-            styles={styles}
             onClickRemoveButton={onClickRemoveButton}
             onClickUpdateButton={onClickUpdateButton}
           />
