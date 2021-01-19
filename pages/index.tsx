@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { initializeApollo } from '@lib/apolloClient';
 import { TODOS } from '@gql';
@@ -11,7 +11,7 @@ interface HomeProps {
   todos: Todo[];
 }
 
-const Home: React.FC<HomeProps> = ({ todos: initialTodos }) => {
+const Home: NextPage<HomeProps> = ({ todos: initialTodos }) => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   return (
